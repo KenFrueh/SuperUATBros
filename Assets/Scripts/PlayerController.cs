@@ -58,7 +58,17 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Jumping");
             rb2d.AddForce(Vector2.up * jumpForce);
+            ani.Play("PlayerJump");
         }
-        
+        //Shooting
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            Debug.Log("I shoot");
+            Shoot();
+        }
+    }
+    void Shoot()
+    {
+        ani.Play("PlayerShoot");
     }
 }
