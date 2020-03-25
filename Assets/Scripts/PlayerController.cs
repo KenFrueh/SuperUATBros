@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb2d;
     private SpriteRenderer sr;
     private Animator ani;
+    public GameObject bulletPrefab;
+    public Transform FirePoint;
 
     public float speed = 5.0f;
     public float jumpForce = 200.0f;
@@ -70,5 +72,6 @@ public class PlayerController : MonoBehaviour
     void Shoot()
     {
         ani.Play("PlayerShoot");
+        Instantiate(original: bulletPrefab, FirePoint.position, FirePoint.rotation);
     }
 }

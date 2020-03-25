@@ -10,7 +10,7 @@ public class ExitLevel : MonoBehaviour
         //Load next level if enter trigger
         if (other.gameObject.name == "Player")
         {
-            GameManager.instance.currentScene -= 1;
+            GameManager.instance.currentScene = 0;
         }
     }
 
