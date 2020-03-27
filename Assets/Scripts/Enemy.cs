@@ -5,16 +5,15 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float movementSpeed = 1.0f;
+    private bool movingRight = true;
     public SpriteRenderer sr;
     private Animator Ani;
     private Transform tf;
-    private Rigidbody2D rb2d;
 
     // Start is called before the first frame update
     void Start()
     {
         tf = gameObject.GetComponent<Transform>();
-        rb2d = gameObject.GetComponent<Rigidbody2D>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         Ani = gameObject.GetComponent<Animator>();
     }
@@ -23,22 +22,29 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         MoveForward();
+
     }
-    public void OnCollisionEnter2D(Collision2D other)
-    {
-        if(other.gameObject.name == "InvisibileBarrier")
-        {
-            //sr.flipX
-        }
-    }
-    void Die()
+    void OnDestroy()
     {
         Ani.Play("EnemyDeath");
-        //if (Ani.Play("EnemyDeath"))
     }
     public void MoveForward()
     {
-        transform.Translate(new Vector3(0, movementSpeed * Time.deltaTime, 0));
+        transform.Translate(Vector2.left * movementSpeed * Time.deltaTime);
+        RaycastHit2D groundInfo = Physics2D.Raycast(tf.position, Vector2.down, 2f);
+        if (groundInfo.collider == false)
+        {
+            if (movingRight == true)
+            {
+                transform.eulerAngles = new Vector3(0, -180, 0);
+                movingRight = false;
+            }
+            else
+            {
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                movingRight = true;
+            }
+        }
         Ani.Play("EnemyWalk");
     }
 }
