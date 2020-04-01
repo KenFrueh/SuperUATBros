@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public int currentScene = 0;
-
+    [HideInInspector] public int currentScene = 0;
+    public int playerScore = 0;
 
     void Awake()
     {
