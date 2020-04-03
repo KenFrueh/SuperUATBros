@@ -9,7 +9,10 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public int currentScene = 0;
     public int playerScore = 0;
-
+    public int Lives = 3;
+    public GameObject PlayerPrefab;
+    public GameObject EnemyPrefab;
+    public int Enemies = 5;
     void Awake()
     {
         if (instance == null)
@@ -29,14 +32,42 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(levelToLoad);
 
     }
-    //Load new level
-    public void LoadLevel(int indexToLoad)
+    public void MenuButton(string levelToLoad)
     {
-        SceneManager.LoadScene(indexToLoad);
-        currentScene = 1;
+        SceneManager.LoadScene(levelToLoad);
     }
+    //Load new level
+    public void LoadLevel()
+    {
+        SceneManager.LoadScene(sceneBuildIndex: 1);
+    }//Load level 2
     public void LoadNextScene()
     {
-        SceneManager.LoadScene(sceneBuildIndex: currentScene + 2);
+        SceneManager.LoadScene(sceneBuildIndex: 2);
+    }//Game over scene
+    public void GameOver()
+    {
+        if(Lives == 0)
+        {
+            SceneManager.LoadScene(sceneBuildIndex: 3);
+        }
+        else if(Enemies == 0)
+        {
+            SceneManager.LoadScene(sceneBuildIndex: 3);
+        }
+    }//respawning the players
+    public void Respawn()
+    {
+        if (Lives > 0)
+        {
+            Instantiate(PlayerPrefab);
+        }
     }
+    public void ERespawn()
+    {
+        if (Enemies > 0)
+        {
+            Instantiate(EnemyPrefab);
+        }
+    }    
 }

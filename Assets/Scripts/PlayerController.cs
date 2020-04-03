@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 200.0f;
     public Transform groundPoint;
     public bool isGrounded = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -69,9 +70,31 @@ public class PlayerController : MonoBehaviour
             Shoot();
         }
     }
-    void Shoot()
+    void Shoot()//Shooting function
     {
         ani.Play("PlayerShoot");
         Instantiate(original: bulletPrefab, FirePoint.position, FirePoint.rotation);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {//Destroying on collision with enemy
+        if(collision.gameObject.tag == "Enemy")
+        {
+            Destroy(this.gameObject);
+            GameManager.instance.playerScore += 10;
+        }
+    }
+    void OnDestroy()
+    {
+        //Losing a life on destroy
+        GameManager.instance.Lives -= 1;
+        if (GameManager.instance.Lives > 0)
+        {
+            GameManager.instance.Respawn();
+        }
+        else
+        {//Display Game over
+            Debug.Log("Game Over");
+            GameManager.instance.GameOver();
+        }
     }
 }

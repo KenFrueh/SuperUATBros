@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     public SpriteRenderer sr;
     private Animator Ani;
     private Transform tf;
+    public AudioClip audioClip;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,16 @@ public class Enemy : MonoBehaviour
     void OnDestroy()
     {
         Ani.Play("EnemyDeath");
+        AudioSource.PlayClipAtPoint(audioClip, transform.position);
+        GameManager.instance.Enemies -= 1;
+        if(GameManager.instance.Enemies > 0)
+        {
+            GameManager.instance.ERespawn();
+        }
+        else
+        {
+            GameManager.instance.GameOver();
+        }
     }
     public void MoveForward()
     {
